@@ -36,7 +36,9 @@ class App extends React.Component {
   sendForSentimentAnalysis = () => {
     this.setState({sentiment:true});
     let ret = ""; 
-    let url = "http://localhost:8080"; // the sentimentAnalyzeServer is listening on port 8080
+    let url = "http://zsang-918-sentiment-analyzer-insightful-gelada-xg.mybluemix.net";
+    // let url = "https://sangzizhou-8080.theiadocker-24.proxy.cognitiveclass.ai";
+    // let url = "http://localhost:8080"; // the sentimentAnalyzeServer is listening on port 8080
 
     if(this.state.mode === "url") {
       url += "/url/sentiment/url="+document.getElementById("textinput").value;
@@ -65,7 +67,9 @@ class App extends React.Component {
   sendForEmotionAnalysis = () => {
     this.setState({sentiment:false});
     let ret = "";
-    let url = "http://localhost:8080"; // the sentimentAnalyzeServer is listening on port 8080
+    // let url = "http://localhost:8080"; // the sentimentAnalyzeServer is listening on port 8080
+    let url = "http://zsang-918-sentiment-analyzer-insightful-gelada-xg.mybluemix.net";
+    // let url = "https://sangzizhou-8080.theiadocker-24.proxy.cognitiveclass.ai";
     if(this.state.mode === "url") {
       url = url+"/url/emotion/url="+document.getElementById("textinput").value;
     } else {
