@@ -58,7 +58,7 @@ async function analyzeText(text, feature) {  // feature = 'emotion' or 'sentimen
 
 
 
-async function analyzeHTML(url, feature){
+async function analyzeURL(url, feature){
 
     try{
         const content = await axios.get(url);
@@ -80,4 +80,4 @@ const theText = "I am happy today";
 // analyzeHTML(theUrl, 'emotion').then(data => console.log(data));
 
 
-module.exports = {analyzeText, analyzeHTML};
+module.exports = {analyzeText, analyzeURL};
