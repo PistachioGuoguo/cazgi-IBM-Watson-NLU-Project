@@ -35,40 +35,42 @@ class App extends React.Component {
 
   sendForSentimentAnalysis = () => {
     this.setState({sentiment:true});
-    let ret = "";
-    let url = ".";
+    let ret = ""; 
+    let url = "http://localhost:8080"; // the sentimentAnalyzeServer is listening on port 8080
 
     if(this.state.mode === "url") {
-      url = url+"/url/sentiment?url="+document.getElementById("textinput").value;
+      url += "/url/sentiment/url="+document.getElementById("textinput").value;
     } else {
-      url = url+"/text/sentiment?text="+document.getElementById("textinput").value;
+      url += "/text/sentiment/text="+document.getElementById("textinput").value;
     }
     ret = axios.get(url);
     ret.then((response)=>{
 
-      //Include code here to check the sentiment and fomrat the data accordingly
-
-      this.setState({sentimentOutput:response.data});
+      //Include code here to check the sentiment and format the data accordingly
       let output = response.data;
-      if(response.data === "positive") {
-        output = <div style={{color:"green",fontSize:20}}>{response.data}</div>
-      } else if (response.data === "negative"){
-        output = <div style={{color:"red",fontSize:20}}>{response.data}</div>
+      // this.setState({sentimentOutput:output.score});
+      
+      if(output.label === "positive") {
+        output = <div style={{color:"green",fontSize:20}}>{output.score}</div>
+      } else if (output.label === "negative"){
+        output = <div style={{color:"red",fontSize:20}}>{output.score}</div>
       } else {
-        output = <div style={{color:"orange",fontSize:20}}>{response.data}</div>
+        output = <div style={{color:"orange",fontSize:20}}>{output.score}</div>
       }
       this.setState({sentimentOutput:output});
     });
   }
 
+
   sendForEmotionAnalysis = () => {
     this.setState({sentiment:false});
     let ret = "";
-    let url = ".";
+    let url = "http://localhost:8080"; // the sentimentAnalyzeServer is listening on port 8080
     if(this.state.mode === "url") {
-      url = url+"/url/emotion?url="+document.getElementById("textinput").value;
+      url = url+"/url/emotion/url="+document.getElementById("textinput").value;
     } else {
-      url = url+"/text/emotion/?text="+document.getElementById("textinput").value;
+      url += "/text/emotion/text="+document.getElementById("textinput").value;
+      console.log(url);
     }
     ret = axios.get(url);
 
@@ -81,15 +83,16 @@ class App extends React.Component {
   render() {
     return (  
       <div className="App">
-      <button className="btn btn-info" onClick={this.renderTextArea}>Text</button>
-        <button className="btn btn-dark"  onClick={this.renderTextBox}>URL</button>
-        <br/><br/>
-        {this.state.innercomp}
-        <br/>
-        <button className="btn-primary" onClick={this.sendForSentimentAnalysis}>Analyze Sentiment</button>
-        <button className="btn-primary" onClick={this.sendForEmotionAnalysis}>Analyze Emotion</button>
-        <br/>
-            {this.state.sentimentOutput}
+
+          <button className="btn btn-info" onClick={this.renderTextArea}>Text</button>
+          <button className="btn btn-dark"  onClick={this.renderTextBox}>URL</button>
+          <br/><br/>
+          {this.state.innercomp}
+          <br/>
+          <button className="btn-primary" onClick={this.sendForSentimentAnalysis}>Analyze Sentiment</button>
+          <button className="btn-primary" onClick={this.sendForEmotionAnalysis}>Analyze Emotion</button>
+          <br/>
+              {this.state.sentimentOutput}
       </div>
     );
     }
